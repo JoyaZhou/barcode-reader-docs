@@ -16,8 +16,7 @@ noTitleIndex: true
 - Operating systems:
   - macOS 10.11 and above.
   - iOS 9.0 and above.
-- Environment: Xcode 7.1 - 11.5 and above.  
-
+- Environment: Xcode 7.1 - 11.5 and above.
 - Recommended: macOS 10.15.4+, Xcode 11.5+, iOS 11+
 
 &nbsp;
@@ -331,7 +330,7 @@ let lts = iDMLTSConnectionParameters()
 lts.organizationID = "200001"
 reader = DynamsoftBarcodeReader(licenseFromLTS: lts, verificationDelegate: self)
 let error: NSError? = NSError()
-barcodeReader.initRuntimeSettingsWithString(content:"{\"Version\":\"3.0\", \"ImageParameter\":{\"Name\":\"IP1\", \"BarcodeFormatIds\":[\"BF_QR_CODE\"], \"ExpectedBarcodesCount\":10}}", conflictMode:EnumConflictMode.Overwrite, error: &error)
+reader.initRuntimeSettingsWithString(content:"{\"Version\":\"3.0\", \"ImageParameter\":{\"Name\":\"IP1\", \"BarcodeFormatIds\":[\"BF_QR_CODE\"], \"ExpectedBarcodesCount\":10}}", conflictMode:EnumConflictMode.Overwrite, error: &error)
 ```  
 
 Below is a template for your reference. To learn more about the APIs, you can check out [`iPublicRuntimeSettings`](api-reference/class/iPublicRuntimeSettings.md) Struct.

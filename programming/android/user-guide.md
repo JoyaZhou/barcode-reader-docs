@@ -116,11 +116,11 @@ You can add Dynamsoft Barcode Reader like below:
          super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_main);
          try {
-            reader = new BarcodeReader();
+            dbr = new BarcodeReader();
             com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
             // Note: If you do not have a valid license for the SDK, some characters of the barcode results will be replaced with "***".
             parameters.organizationID = "Put your organizationID here.";
-            reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+            dbr.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
                @Override
                public void LTSLicenseVerificationCallback(boolean b, Exception e) {
                   if (!b) { e.printStackTrace(); }
@@ -190,7 +190,7 @@ For example, to enable only 1D barcode reading, you can use the following code:
 BarcodeReader dbr = new BarcodeReader();
 com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
 parameters.organizationID = "Put your organizationID here.";
-reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+dbr.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
    @Override
    public void LTSLicenseVerificationCallback(boolean b, Exception e) {
       if (!b) { e.printStackTrace(); }
@@ -212,7 +212,7 @@ By default, the SDK will read as many barcodes as it can. To increase the recogn
 BarcodeReader dbr = new BarcodeReader();
 com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
 parameters.organizationID = "Put your organizationID here.";
-reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+dbr.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
    @Override
    public void LTSLicenseVerificationCallback(boolean b, Exception e) {
       if (!b) { e.printStackTrace(); }
@@ -223,7 +223,7 @@ rts.expectedBarcodesCount = 10;
 dbr.updateRuntimeSettings(rts);
 //Replace "<Put the path of your file here>" with your own file path
 TextResult[] result = dbr.decodeFile("<Put your file path here>","");
-reader.destroy();
+dbr.destroy();
 ```
 
 #### Specify a scan region
@@ -237,7 +237,7 @@ To specify a region, you will need to define an area. The following code shows h
 BarcodeReader dbr = new BarcodeReader();
 com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
 parameters.organizationID = "Put your organizationID here.";
-reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+dbr.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
    @Override
    public void LTSLicenseVerificationCallback(boolean b, Exception e) {
       if (!b) { e.printStackTrace(); }
@@ -252,7 +252,7 @@ runtimeSettings.region.regionMeasuredByPercentage = 1; //The region is determine
 dbr.updateRuntimeSettings(runtimeSettings);
 //Replace "<Put the path of your file here>" with your own file path
 TextResult[] result = dbr.decodeFile("<Put your file path here>","");
-reader.destroy();
+dbr.destroy();
 ```
 
 ### Use A Template to Change Settings
@@ -263,7 +263,7 @@ Besides the option of using the PublicRuntimeSettings class, the SDK also provid
 BarcodeReader dbr = new BarcodeReader();
 com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
 parameters.organizationID = "Put your organizationID here.";
-reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+dbr.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
    @Override
    public void LTSLicenseVerificationCallback(boolean b, Exception e) {
       if (!b) { e.printStackTrace(); }
@@ -272,7 +272,7 @@ reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
 dbr.initRuntimeSettingsWithFile("<put your json file here>", EnumConflictMode.CM_OVERWRITE);
 //Replace "<Put the path of your file here>" with your own file path
 TextResult[] result = dbr.decodeFile("<Put your file path here>","");
-reader.destroy();
+dbr.destroy();
 ```
 
 Below is a template for your reference. To learn more about the APIs, you can check out [`PublicRuntimeSettings`](api-reference/class/PublicRuntimeSettings.md) Class.
