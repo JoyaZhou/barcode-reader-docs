@@ -14,8 +14,8 @@ noTitleIndex: true
 ## System Requirements
 
 - Operating systems:
-   - Supported OS: Android 5 or higher (Android 7 or higher recommended)
-   - Supported ABI: armeabi-v7a, arm64-v8a, x86 and x86_64
+  - Supported OS: Android 5 or higher (Android 7 or higher recommended)
+  - Supported ABI: armeabi-v7a, arm64-v8a, x86 and x86_64
 
 ## Installation
 
@@ -29,7 +29,7 @@ After decompression, you can find samples in the **DBRSamples** folder under the
 
 You can add Dynamsoft Barcode Reader like below:
 
-1. Add download URL in your project's `build.gradle`. 
+1. Add download URL in your project's `build.gradle`.
 
    ```
     allprojects {
@@ -107,6 +107,7 @@ You can add Dynamsoft Barcode Reader like below:
 
     ```java
    import com.dynamsoft.dbr.BarcodeReader;
+   import com.dynamsoft.dbr.DBRLTSLicenseVerificationListener;
    import com.dynamsoft.dbr.TextResult;
    import android.util.Log;
    public class MainActivity extends AppCompatActivity {
@@ -115,8 +116,16 @@ You can add Dynamsoft Barcode Reader like below:
          super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_main);
          try {
-            BarcodeReader dbr = new BarcodeReader("your license here");
+            reader = new BarcodeReader();
+            com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
             // Note: If you do not have a valid license for the SDK, some characters of the barcode results will be replaced with "***".
+            parameters.organizationID = "Put your organizationID here.";
+            reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+               @Override
+               public void LTSLicenseVerificationCallback(boolean b, Exception e) {
+                  if (!b) { e.printStackTrace(); }
+               }
+            });            
             // Leave the template name empty ("") will use the settings from PublicRuntimeSettings.
             TextResult[] results = dbr.decodeFile("put your file path here", "");
             // e.g. TextResult[] results = dbr.decodeFile("/storage/dbr-preview-img/test.jpg", "");
@@ -152,26 +161,26 @@ You can find more samples in more programming languages at [Code Gallery](https:
 
 ## Barcode Reading Settings
 
-Calling the [decoding methods](#decoding-methods) directly will use the default scanning modes and it will satisfy most of the needs. The SDK also allows you to adjust the scanning settings to optimize the scanning performance for different usage scenarios.   
-   
-There are two ways to change the barcode reading settings - using the `PublicRuntimeSettings` class or template. For new developers, We recommend you to start with the `PublicRuntimeSettings` class; For those who are experienced with the SDK, you may use a template which is more flexible and easier to update.   
+Calling the [decoding methods](#decoding-methods) directly will use the default scanning modes and it will satisfy most of the needs. The SDK also allows you to adjust the scanning settings to optimize the scanning performance for different usage scenarios.
 
-- [Use `PublicRuntimeSettings` class to Change Settings](#use-publicruntimesettings-class-to-change-settings)   
-- [Use A Template to Change Settings](#use-a-template-to-change-settings)   
+There are two ways to change the barcode reading settings - using the `PublicRuntimeSettings` class or template. For new developers, We recommend you to start with the `PublicRuntimeSettings` class; For those who are experienced with the SDK, you may use a template which is more flexible and easier to update.
+
+- [Use `PublicRuntimeSettings` class to Change Settings](#use-publicruntimesettings-class-to-change-settings)
+- [Use A Template to Change Settings](#use-a-template-to-change-settings)
 
 ### Use [`PublicRuntimeSettings`](api-reference/class/PublicRuntimeSettings.md) class to Change Settings
 
-Here are some common scanning settings you might find helpful:   
+Here are some common scanning settings you might find helpful:
 
-- [Specify Barcode Type to Read](#specify-barcode-type-to-read)   
-- [Specify Maximum Barcode Count](#specify-maximum-barcode-count)   
+- [Specify Barcode Type to Read](#specify-barcode-type-to-read)
+- [Specify Maximum Barcode Count](#specify-maximum-barcode-count)
 - [Specify a Scan Region](#specify-a-scan-region)  
 
 For more scanning settings guide, check out the [How To](#how-to-guide) section.
 
 #### Specify Barcode Type to Read
 
-By default, the SDK will read all the supported barcode formats except Postal Codes and Dotcode from the image. (See [Product Overview]({{ site.introduction }}overview.html) for the full supported barcode list.) 
+By default, the SDK will read all the supported barcode formats except Postal Codes and Dotcode from the image. (See [Product Overview]({{ site.introduction }}overview.html) for the full supported barcode list.)
 
 If your full license only covers some barcode formats, you can use `BarcodeFormatIds` and `BarcodeFormatIds_2` to specify the barcode format(s). Check out [`BarcodeFormat`]({{ site.enumerations }}format-enums.html#barcodeformat) and [`BarcodeFormat_2`]({{ site.enumerations }}format-enums.html#barcodeformat_2).
 
@@ -179,7 +188,14 @@ For example, to enable only 1D barcode reading, you can use the following code:
 
 ```java
 BarcodeReader dbr = new BarcodeReader();
-dbr.initLicense("<Put your license key here>"); //Replace "<Put your license key here>" with your own license
+com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
+parameters.organizationID = "Put your organizationID here.";
+reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+   @Override
+   public void LTSLicenseVerificationCallback(boolean b, Exception e) {
+      if (!b) { e.printStackTrace(); }
+   }
+}); 
 // Set barcodeFromatIds via PublicRuntimeSettings instance and update it to BarcodeReader instance
 PublicRuntimeSettings runtimeSettings = dbr.getRuntimeSettings();
 runtimeSettings.barcodeFormatIds = 0x7FF;// OneD barcode
@@ -194,7 +210,14 @@ By default, the SDK will read as many barcodes as it can. To increase the recogn
 
 ```java
 BarcodeReader dbr = new BarcodeReader();
-dbr.initLicense("<Put your license key here>"); //Replace "<Put your license key here>" with your own license
+com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
+parameters.organizationID = "Put your organizationID here.";
+reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+   @Override
+   public void LTSLicenseVerificationCallback(boolean b, Exception e) {
+      if (!b) { e.printStackTrace(); }
+   }
+});
 PublicRuntimeSettings rts = dbr.getRuntimeSettings();
 rts.expectedBarcodesCount = 10;
 dbr.updateRuntimeSettings(rts);
@@ -212,7 +235,14 @@ To specify a region, you will need to define an area. The following code shows h
 
 ```java
 BarcodeReader dbr = new BarcodeReader();
-dbr.initLicense("<Put your license key here>"); //Replace "<Put your license key here>" with your own license
+com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
+parameters.organizationID = "Put your organizationID here.";
+reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+   @Override
+   public void LTSLicenseVerificationCallback(boolean b, Exception e) {
+      if (!b) { e.printStackTrace(); }
+   }
+});
 PublicRuntimeSettings runtimeSettings = dbr.getRuntimeSettings();
 runtimeSettings.region.regionBottom = 100;
 runtimeSettings.region.regionLeft = 0;
@@ -231,14 +261,21 @@ Besides the option of using the PublicRuntimeSettings class, the SDK also provid
 
 ```java
 BarcodeReader dbr = new BarcodeReader();
-dbr.initLicense("<Put your license key here>"); //Replace "<Put your license key here>" with your own license
-br.initRuntimeSettingsWithFile("<put your json file here>", EnumConflictMode.CM_OVERWRITE);
+com.dynamsoft.dbr.DMLTSConnectionParameters parameters = new com.dynamsoft.dbr.DMLTSConnectionParameters();
+parameters.organizationID = "Put your organizationID here.";
+reader.initLicenseFromLTS(parameters, new DBRLTSLicenseVerificationListener() {
+   @Override
+   public void LTSLicenseVerificationCallback(boolean b, Exception e) {
+      if (!b) { e.printStackTrace(); }
+   }
+});
+dbr.initRuntimeSettingsWithFile("<put your json file here>", EnumConflictMode.CM_OVERWRITE);
 //Replace "<Put the path of your file here>" with your own file path
 TextResult[] result = dbr.decodeFile("<Put your file path here>","");
 reader.destroy();
 ```
 
-Below is a template for your reference. To learn more about the APIs, you can check out [`PublicRuntimeSettings`](api-reference/class/PublicRuntimeSettings.md) Class. 
+Below is a template for your reference. To learn more about the APIs, you can check out [`PublicRuntimeSettings`](api-reference/class/PublicRuntimeSettings.md) Class.
 
 ```json
 {
@@ -327,6 +364,7 @@ Replace the old `DynamsoftBarcodeReaderAndroid.aar` file with the one in the lat
 Change Name of Import from `import com.dynamsoft.barcode.***;` to `import com.dynamsoft.dbr.***;`, like this:
 
 Change:
+
 ```java
 import com.dynamsoft.barcode.BarcodeReader;
 import com.dynamsoft.barcode.EnumBarcodeFormat;
@@ -345,6 +383,7 @@ import com.dynamsoft.barcode.TextResultCallback;
 ```
 
 to:
+
 ```java
 import com.dynamsoft.dbr.BarcodeReader;
 import com.dynamsoft.dbr.EnumBarcodeFormat;
@@ -368,7 +407,7 @@ You need to replace the old `DynamsoftBarcodeReaderAndroid.aar` file with the on
 
 Your previous SDK license for version 7.x is not compatible with the version 8.x. Please [contact us](https://www.dynamsoft.com/Company/Contact.aspx) to upgrade your license.
 
-In v8.0, we introduced a new license tracking mechanism, <a href="https://www.dynamsoft.com/license-tracking/docs/about/index.html" target="_blank">License 2.0</a>. 
+In v8.0, we introduced a new license tracking mechanism, <a href="https://www.dynamsoft.com/license-tracking/docs/about/index.html" target="_blank">License 2.0</a>.
 
 If you wish to use License 2.0, please refer to [this article](../../license-activation/set-full-license.md) to set the license.
 
