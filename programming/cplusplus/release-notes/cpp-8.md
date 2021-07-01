@@ -8,6 +8,7 @@ needGenerateH3Content: false
 noTitleIndex: true
 ---
 
+
 ## 8.4 (06/08/2021)
 
 ### New
@@ -28,7 +29,8 @@ noTitleIndex: true
 
 ### Fixed
 
-- Fixed an issue that happens when calling initLicenseFromLTS if [`handShakeCode`]({{site.structs}}DMLTSConnectionParameters.html?src=cpp#handshakecode) is not set.## 8.2 (03/17/2021)
+- Fixed an issue that happens when calling initLicenseFromLTS if [`handShakeCode`]({{site.structs}}DMLTSConnectionParameters.html?src=cpp#handshakecode) is not set.
+## 8.2 (03/17/2021)
 
 ### New
 
@@ -41,7 +43,8 @@ noTitleIndex: true
 
 ### Fixed
 
-- Resolved a bug that infrequently causes the application to crash when decoding a MicroPDF417 barcode.## 8.1.2 (01/22/2021)
+- Resolved a bug that infrequently causes the application to crash when decoding a MicroPDF417 barcode.
+## 8.1.2 (01/22/2021)
 
 ### New
 
@@ -55,6 +58,7 @@ noTitleIndex: true
 ### Fixed
 
 - Fixed a bug where `barcodeFormatString`, `barcodeFormatString_2`, `regionName` and `documentName` don't have value in the `IRT_TYPED_BARCODE_ZONE` intermediate result.
+
 ## 8.1 (01/12/2021)
 
 ### New
@@ -73,7 +77,8 @@ noTitleIndex: true
 ### Fixed
 
 - Fixed a bug where Micro PDF417 may not be localized in multiple-barcode scenarios.
-- Fixed a bug where the `ExpectedBarcodesCount` and `BarcodeFormat` parameters do not work in the `RegionDefinition`.## 8.0 (11/17/2020)
+- Fixed a bug where the `ExpectedBarcodesCount` and `BarcodeFormat` parameters do not work in the `RegionDefinition`.
+## 8.0 (11/17/2020)
 
 ### New
 
